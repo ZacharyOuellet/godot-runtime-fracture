@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://dh0oj81pufivs"]
 
 [ext_resource type="Script" uid="uid://bkwk40ybs8kgm" path="res://example.gd" id="1_jdh55"]
+[ext_resource type="Script" uid="uid://cte4jalives85" path="res://addons/sk_fly_camera/src/fly_camera.gd" id="2_n51mc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_npwjr"]
 
@@ -32,8 +33,10 @@ environment = SubResource("Environment_bpmhk")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1118680679]
 transform = Transform3D(-0.5734724, -0.6525172, 0.4953289, 0.0033697255, 0.60274726, 0.79792506, -0.81921804, 0.45925713, -0.3434601, 0, 0, 0)
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1677796348]
-transform = Transform3D(-1, 4.3975398e-08, -7.55573e-08, 0, 0.8642748, 0.5030199, 8.742278e-08, 0.5030199, -0.8642748, 0, 2.029, -3.333)
-
 [node name="DestructibleMesh" type="DestructibleMesh" parent="." unique_id=1984087981]
 mesh = SubResource("ArrayMesh_2jas5")
+
+[node name="FlyCamera" type="CharacterBody3D" parent="." unique_id=1764508149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.921233)
+script = ExtResource("2_n51mc")
+metadata/_custom_type_script = "uid://cte4jalives85"
