@@ -1,6 +1,39 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh0oj81pufivs"]
+[gd_scene format=4 uid="uid://dh0oj81pufivs"]
 
-[ext_resource type="Script" path="res://example.gd" id="1_jdh55"]
+[ext_resource type="Script" uid="uid://bkwk40ybs8kgm" path="res://example.gd" id="1_jdh55"]
 
-[node name="Node" type="Node"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_npwjr"]
+
+[sub_resource type="Sky" id="Sky_85ri6"]
+sky_material = SubResource("ProceduralSkyMaterial_npwjr")
+
+[sub_resource type="Environment" id="Environment_bpmhk"]
+background_mode = 2
+sky = SubResource("Sky_85ri6")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_2jas5"]
+_surfaces = [{
+"aabb": AABB(-1, -1, -1, 2, 2, 2),
+"format": 34359742465,
+"index_count": 36,
+"index_data": PackedByteArray("AgAGAAcAAgADAAcAAAAEAAUAAAABAAUAAAACAAYAAAAEAAYAAQADAAcAAQAFAAcAAAACAAMAAAABAAMABAAGAAcABAAFAAcA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AACAvwAAgL8AAIA/AACAPwAAgL8AAIA/AACAvwAAgD8AAIA/AACAPwAAgD8AAIA/AACAvwAAgL8AAIC/AACAPwAAgL8AAIC/AACAvwAAgD8AAIC/AACAPwAAgD8AAIC/")
+}]
+
+[node name="Node" type="Node3D" unique_id=1771325713]
 script = ExtResource("1_jdh55")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=311569536]
+environment = SubResource("Environment_bpmhk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1118680679]
+transform = Transform3D(-0.5734724, -0.6525172, 0.4953289, 0.0033697255, 0.60274726, 0.79792506, -0.81921804, 0.45925713, -0.3434601, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1677796348]
+transform = Transform3D(-1, 4.3975398e-08, -7.55573e-08, 0, 0.8642748, 0.5030199, 8.742278e-08, 0.5030199, -0.8642748, 0, 2.029, -3.333)
+
+[node name="DestructibleMesh" type="DestructibleMesh" parent="." unique_id=1984087981]
+mesh = SubResource("ArrayMesh_2jas5")
