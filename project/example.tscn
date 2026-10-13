@@ -15,14 +15,16 @@ sky = SubResource("Sky_85ri6")
 [sub_resource type="ArrayMesh" id="ArrayMesh_n51mc"]
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2),
-"format": 34359742465,
+"format": 34359742471,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAMAAAADAAIABAAHAAUABAAGAAcAAQAFAAcAAQAHAAMAAgAGAAQAAgAEAAAAAAAEAAUAAAAFAAEAAwAHAAYAAwAGAAIA"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 8,
-"vertex_data": PackedByteArray("AACAvwAAgL8AAIC/AACAvwAAgL8AAIA/AACAPwAAgL8AAIC/AACAPwAAgL8AAIA/AACAvwAAgD8AAIC/AACAvwAAgD8AAIA/AACAPwAAgD8AAIC/AACAPwAAgD8AAIA/")
+"vertex_data": PackedByteArray("AACAvwAAgL8AAIC/AACAvwAAgL8AAIA/AACAPwAAgL8AAIC/AACAPwAAgL8AAIA/AACAvwAAgD8AAIC/AACAvwAAgD8AAIA/AACAPwAAgD8AAIC/AACAPwAAgD8AAIA/MjMyM8xMzMz/X/9fMrPMjP/f/x84jnGcMrPMTOxEYacyM2XmMjOZmf8//584jqqq/9//v5mZzMyZmTKz7EQmtg==")
 }]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bpmhk"]
 
 [node name="Node" type="Node3D" unique_id=1771325713]
 script = ExtResource("1_jdh55")
@@ -31,7 +33,7 @@ script = ExtResource("1_jdh55")
 environment = SubResource("Environment_bpmhk")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1118680679]
-transform = Transform3D(-0.5734724, -0.6525172, 0.4953289, 0.0033697255, 0.60274726, 0.79792506, -0.81921804, 0.45925713, -0.3434601, 0, 0, 0)
+transform = Transform3D(-0.48320514, -0.87532413, -0.017901633, -0.69741917, 0.37247455, 0.61226547, -0.5292629, 0.30833477, -0.7904496, 0, 0, 0)
 
 [node name="DestructibleMesh" type="DestructibleMesh" parent="." unique_id=1984087981]
 mesh = SubResource("ArrayMesh_n51mc")
@@ -39,3 +41,7 @@ mesh = SubResource("ArrayMesh_n51mc")
 [node name="FlyCamera" type="CharacterBody3D" parent="." unique_id=1764508149]
 script = ExtResource("2_n51mc")
 metadata/_custom_type_script = "uid://cte4jalives85"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1855601894]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.1114185)
+mesh = SubResource("BoxMesh_bpmhk")

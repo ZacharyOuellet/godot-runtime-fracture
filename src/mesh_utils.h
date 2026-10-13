@@ -1,31 +1,43 @@
 #pragma once
 #include "godot_cpp/classes/array_mesh.hpp"
+#include <igl/per_vertex_normals.h>
 #include <Eigen/Dense>
 
 namespace MeshUtils {
-godot::Ref<godot::ArrayMesh> toArrayMesh(const Eigen::Matrix<float, Eigen::Dynamic, 3> &vertices, const Eigen::Matrix<int, Eigen::Dynamic, 3> &faces) {
+godot::Ref<godot::ArrayMesh> toArrayMesh(const Eigen::Matrix<float, Eigen::Dynamic, 3> &V, const Eigen::Matrix<int, Eigen::Dynamic, 3> &F) {
 	godot::Array surface_array;
 	surface_array.resize(godot::Mesh::ARRAY_MAX);
 
 	godot::PackedVector3Array verts;
-	for (int row = 0; row < vertices.rows(); row++) {
-		Eigen::Vector3f pos = vertices.row(row);
+	for (int row = 0; row < V.rows(); row++) {
+		Eigen::Vector3f pos = V.row(row);
 		verts.append(godot::Vector3(pos[0], pos[1], pos[2]));
 	}
 
 	godot::PackedInt32Array indices;
-	for (int row = 0; row < faces.rows(); row++) {
-		Eigen::Vector3i pos = faces.row(row);
-		indices.append(pos[0]);
-		indices.append(pos[1]);
-		indices.append(pos[2]);
+	for (int row = 0; row < F.rows(); row++) {
+		Eigen::Vector3i face = F.row(row);
+		indices.append(face[0]);
+		indices.append(face[1]);
+		indices.append(face[2]);
 	}
+
+	Eigen::MatrixXf N;
+	igl::per_vertex_normals(V, F, N);
+	N = -N; // Since godot is clockwise
+	godot::PackedVector3Array normals;
+	for (int row = 0; row < N.rows(); row++) {
+		Eigen::Vector3f normal = N.row(row);
+		normals.append(godot::Vector3(normal[0], normal[1], normal[2]));
+	}
+
 	surface_array[godot::Mesh::ARRAY_VERTEX] = verts;
 	surface_array[godot::Mesh::ARRAY_INDEX] = indices;
-
+	surface_array[godot::Mesh::ARRAY_NORMAL] = normals;
 	godot::Ref<godot::ArrayMesh> array_mesh;
 	array_mesh.instantiate();
 	array_mesh->add_surface_from_arrays(godot::Mesh::PRIMITIVE_TRIANGLES, surface_array);
+
 	return array_mesh;
 }
 
