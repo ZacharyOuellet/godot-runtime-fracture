@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import subprocess
 import sys
 
 from methods import print_error
@@ -59,6 +60,19 @@ library = env.SharedLibrary(
 )
 
 copy = env.Install("{}/bin/{}/".format(projectdir, env["platform"]), library)
+
+
+def run_godot_action(target, source, env):
+    try:
+        subprocess.run(["godot", "--path", projectdir], env=os.environ)
+    except KeyboardInterrupt:
+        pass  # Ctrl+C was meant for Godot, so don't treat it as a failed build
+    return 0  # ignore Godot's exit code
+
+
+run_godot = env.Command("run_godot", copy, run_godot_action)
+AlwaysBuild(run_godot)
+env.Alias("run", run_godot)
 
 default_args = [library, copy]
 Default(*default_args)
