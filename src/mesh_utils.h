@@ -31,40 +31,40 @@ godot::Ref<godot::ArrayMesh> toArrayMesh(const Eigen::Matrix<float, Eigen::Dynam
 
 void create_cube(Eigen::Matrix<float, Eigen::Dynamic, 3> &out_V, Eigen::Matrix<int, Eigen::Dynamic, 3> &out_F) {
 	out_V = Eigen::Matrix<float, Eigen::Dynamic, 3>{
-		{ -1, -1, 1 }, //0
-		{ 1, -1, 1 }, //1
-		{ -1, 1, 1 }, //2
-		{ 1, 1, 1 }, //3
-		{ -1, -1, -1 }, //4
-		{ 1, -1, -1 }, //5
-		{ -1, 1, -1 }, //6
-		{ 1, 1, -1 } //7
+		{ -1, -1, -1 }, //0
+		{ -1, -1, 1 }, //1
+		{ 1, -1, -1 }, //2
+		{ 1, -1, 1 }, //3
+		{ -1, 1, -1 }, //4
+		{ -1, 1, 1 }, //5
+		{ 1, 1, -1 }, //6
+		{ 1, 1, 1 }, //7
 	};
 
 	out_F = Eigen::Matrix<int, Eigen::Dynamic, 3>{
-		//top
-		{ 2, 6, 7 },
-		{ 2, 3, 7 },
-
-		//Bottom
-		{ 0, 4, 5 },
-		{ 0, 1, 5 },
-
-		//Left
-		{ 0, 2, 6 },
-		{ 0, 4, 6 },
-
-		//Right
-		{ 1, 3, 7 },
-		{ 1, 5, 7 },
-
-		//Front
-		{ 0, 2, 3 },
+		//bottom
 		{ 0, 1, 3 },
+		{ 0, 3, 2 },
 
-		//Back
+		//top
+		{ 4, 7, 5 },
 		{ 4, 6, 7 },
-		{ 4, 5, 7 },
+
+		//front
+		{ 1, 5, 7 },
+		{ 1, 7, 3 },
+
+		//back
+		{ 2, 6, 4 },
+		{ 2, 4, 0 },
+
+		//left
+		{ 0, 4, 5 },
+		{ 0, 5, 1 },
+
+		// right
+		{ 3, 7, 6 },
+		{ 3, 6, 2 },
 	};
 }
 } //namespace MeshUtils

@@ -12,16 +12,16 @@ sky_material = SubResource("ProceduralSkyMaterial_npwjr")
 background_mode = 2
 sky = SubResource("Sky_85ri6")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_2jas5"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_n51mc"]
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2),
 "format": 34359742465,
 "index_count": 36,
-"index_data": PackedByteArray("AgAGAAcAAgADAAcAAAAEAAUAAAABAAUAAAACAAYAAAAEAAYAAQADAAcAAQAFAAcAAAACAAMAAAABAAMABAAGAAcABAAFAAcA"),
+"index_data": PackedByteArray("AAABAAMAAAADAAIABAAHAAUABAAGAAcAAQAFAAcAAQAHAAMAAgAGAAQAAgAEAAAAAAAEAAUAAAAFAAEAAwAHAAYAAwAGAAIA"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 8,
-"vertex_data": PackedByteArray("AACAvwAAgL8AAIA/AACAPwAAgL8AAIA/AACAvwAAgD8AAIA/AACAPwAAgD8AAIA/AACAvwAAgL8AAIC/AACAPwAAgL8AAIC/AACAvwAAgD8AAIC/AACAPwAAgD8AAIC/")
+"vertex_data": PackedByteArray("AACAvwAAgL8AAIC/AACAvwAAgL8AAIA/AACAPwAAgL8AAIC/AACAPwAAgL8AAIA/AACAvwAAgD8AAIC/AACAvwAAgD8AAIA/AACAPwAAgD8AAIC/AACAPwAAgD8AAIA/")
 }]
 
 [node name="Node" type="Node3D" unique_id=1771325713]
@@ -34,9 +34,8 @@ environment = SubResource("Environment_bpmhk")
 transform = Transform3D(-0.5734724, -0.6525172, 0.4953289, 0.0033697255, 0.60274726, 0.79792506, -0.81921804, 0.45925713, -0.3434601, 0, 0, 0)
 
 [node name="DestructibleMesh" type="DestructibleMesh" parent="." unique_id=1984087981]
-mesh = SubResource("ArrayMesh_2jas5")
+mesh = SubResource("ArrayMesh_n51mc")
 
 [node name="FlyCamera" type="CharacterBody3D" parent="." unique_id=1764508149]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.921233)
 script = ExtResource("2_n51mc")
 metadata/_custom_type_script = "uid://cte4jalives85"
