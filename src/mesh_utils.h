@@ -1,13 +1,16 @@
 #pragma once
 #include "godot_cpp/classes/array_mesh.hpp"
+#include "godot_cpp/classes/mesh.hpp"
 #include "godot_cpp/classes/surface_tool.hpp"
+
 #include <igl/per_face_normals.h>
+#include <igl/remove_duplicate_vertices.h>
 #include <Eigen/Dense>
 
 namespace MeshUtils {
 
-godot::Ref<godot::ArrayMesh> toArrayMesh(const Eigen::MatrixXf &V, const Eigen::MatrixXi &F) {
-	Eigen::MatrixXf N;
+godot::Ref<godot::ArrayMesh> toArrayMesh(const Eigen::MatrixX3d &V, const Eigen::MatrixX3i &F) {
+	Eigen::MatrixX3d N;
 	igl::per_face_normals(V, F, N);
 
 	godot::PackedVector3Array verts, normals;
@@ -15,7 +18,7 @@ godot::Ref<godot::ArrayMesh> toArrayMesh(const Eigen::MatrixXf &V, const Eigen::
 
 	for (int row = 0; row < F.rows(); row++) {
 		Eigen::Vector3i vertex_ids = F.row(row);
-		Eigen::Vector3f face_normal = N.row(row);
+		Eigen::Vector3d face_normal = N.row(row);
 		// Change winding order because godot is clockwise
 		for (int i : { 1, 0, 2 }) {
 			indices.append(verts.size());
@@ -36,8 +39,8 @@ godot::Ref<godot::ArrayMesh> toArrayMesh(const Eigen::MatrixXf &V, const Eigen::
 	return mesh;
 }
 
-void create_cube(Eigen::Matrix<float, Eigen::Dynamic, 3> &out_V, Eigen::Matrix<int, Eigen::Dynamic, 3> &out_F) {
-	out_V = Eigen::Matrix<float, Eigen::Dynamic, 3>{
+void create_cube(Eigen::MatrixX3d &out_V, Eigen::MatrixX3i &out_F) {
+	out_V = Eigen::MatrixX3d{
 		{ -1, -1, -1 }, //0
 		{ -1, -1, 1 }, //1
 		{ 1, -1, -1 }, //2
@@ -48,7 +51,7 @@ void create_cube(Eigen::Matrix<float, Eigen::Dynamic, 3> &out_V, Eigen::Matrix<i
 		{ 1, 1, 1 }, //7
 	};
 
-	out_F = Eigen::Matrix<int, Eigen::Dynamic, 3>{
+	out_F = Eigen::MatrixX3i{
 		//bottom
 		{ 0, 3, 1 },
 		{ 0, 2, 3 },
@@ -73,5 +76,34 @@ void create_cube(Eigen::Matrix<float, Eigen::Dynamic, 3> &out_V, Eigen::Matrix<i
 		{ 3, 6, 7 },
 		{ 3, 2, 6 },
 	};
+}
+
+bool to_igl_mesh(godot::Ref<godot::Mesh> mesh, Eigen::MatrixX3d &out_V, Eigen::MatrixX3i &out_F) {
+	if (mesh.is_null()) {
+		return false;
+	}
+
+	godot::Array surface_array = mesh->surface_get_arrays(0);
+	godot::PackedVector3Array verts = surface_array[godot::Mesh::ARRAY_VERTEX];
+	godot::PackedInt32Array indices = surface_array[godot::Mesh::ARRAY_INDEX];
+
+	Eigen::MatrixX3d temp_V(verts.size(), 3);
+	for (int i = 0; i < verts.size(); i++) {
+		godot::Vector3 v = verts[i];
+		temp_V(i, 0) = v.x;
+		temp_V(i, 1) = v.y;
+		temp_V(i, 2) = v.z;
+	}
+
+	Eigen::MatrixX3i temp_F(indices.size() / 3, 3);
+	for (int i = 0; i < indices.size() / 3; i++) {
+		// Change winding order because godot is clockwise
+		temp_F(i, 0) = indices[i * 3 + 1];
+		temp_F(i, 1) = indices[i * 3 + 0];
+		temp_F(i, 2) = indices[i * 3 + 2];
+	}
+	Eigen::VectorXi SVI, SVJ;
+	igl::remove_duplicate_vertices(temp_V, temp_F, 1e-6, out_V, SVI, SVJ, out_F);
+	return true;
 }
 } //namespace MeshUtils

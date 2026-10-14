@@ -6,7 +6,6 @@
 #include <godot_cpp/godot.hpp>
 
 #include "destructible_mesh.h"
-#include "example_class.h"
 
 using namespace godot;
 
@@ -15,8 +14,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
-	GDREGISTER_CLASS(ExampleClass);
-	GDREGISTER_CLASS(DestructibleMesh);
+	GDREGISTER_RUNTIME_CLASS(DestructibleMesh);
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {

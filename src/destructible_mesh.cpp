@@ -1,4 +1,6 @@
 #include "destructible_mesh.h"
+#include "godot_cpp/core/property_info.hpp"
+#include "godot_cpp/variant/variant.hpp"
 #include "mesh_utils.h"
 
 void DestructibleMesh::_bind_methods() {
@@ -7,7 +9,10 @@ void DestructibleMesh::_bind_methods() {
 
 void DestructibleMesh::_ready() {
 	MeshInstance3D::_ready();
-	MeshUtils::create_cube(V, F);
+	bool meshLoaded = MeshUtils::to_igl_mesh(get_mesh(), V, F);
+	if (!meshLoaded) {
+		MeshUtils::create_cube(V, F);
+	}
 	display_mesh();
 }
 
